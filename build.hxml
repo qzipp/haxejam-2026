@@ -1,0 +1,15 @@
+-cp src/
+-cp tabby/src
+
+-L love
+
+--main Main
+
+--lua build/main.lua
+
+-D lua-vanilla
+-D lua-jit
+
+# replace these two with a macro
+--cmd cp conf.lua build/ 
+--cmd cp -r assets/ build
