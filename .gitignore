@@ -1,1 +1,5 @@
 .haxelib
+
+export
+*.png~
+*-autosave.kra
