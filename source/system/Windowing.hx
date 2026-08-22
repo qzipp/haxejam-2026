@@ -74,7 +74,8 @@ class Window extends UIObject {
   var dy: Float = 0;
 
   override function update(elapsed: Float) {
-    super.update(elapsed);
+    if(!moving)
+      super.update(elapsed);
 
     var mx = FlxG.mouse.gameX;
     var my = FlxG.mouse.gameY;
@@ -101,8 +102,8 @@ class Window extends UIObject {
     }
 
     if(moving) {
-      x = mx + dx;    
-      y = my + dy; 
+      x = FlxMath.bound(mx + dx, 0, FlxG.width - width);
+      y = FlxMath.bound(my + dy, 0, FlxG.height - height);
     }
   }
 }
