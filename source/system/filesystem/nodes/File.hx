@@ -1,7 +1,9 @@
 package system.filesystem.nodes;
 
-final class File extends BaseNode<File> {
+final class File extends BaseNode {
   public var extension: String;
+
+  public var content: String;
 
   private inline function getExtension(name: String): String {
     final lastDotThingy = name.lastIndexOf(".");
@@ -10,9 +12,10 @@ final class File extends BaseNode<File> {
     return name.substr(lastDotThingy + 1);
   }
 
-  public function new(name: String) {
+  public function new(name: String, ?content: String = "") {
     super(name);
     extension = this.getExtension(name);
+    this.content = content;
    // onCreate.dispatch(this);
   }
 }

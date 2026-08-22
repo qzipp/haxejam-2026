@@ -2,20 +2,22 @@ package system.filesystem;
 
 import flixel.util.FlxDestroyUtil.IFlxDestroyable;
 import flixel.util.FlxSignal;
+import system.filesystem.NodeType;
+import system.filesystem.nodes.Drive;
 import system.filesystem.nodes.Folder;
 
 interface IFileNode extends IFlxDestroyable {
   public var name: String;
-  public var parent: Folder;
+  public var parent: Drive;
   public function destroy(): Void;
 }
 
-class BaseNode<T:BaseNode<T>> implements IFileNode {
+class BaseNode<T = NodeType> implements IFileNode {
   public var name: String;
-  public var parent: Folder;
+  public var parent: Drive;
 
-  public var onDestroy: FlxTypedSignal<T->Void> = new FlxTypedSignal<T->Void>();
-  public var onCreate: FlxTypedSignal<T->Void> = new FlxTypedSignal<T->Void>();
+  public var onCreate = new FlxTypedSignal<T->Void>();
+  public var onDestroy = new FlxTypedSignal<T->Void>();
 
   public function new(name: String) {
     this.name = name;

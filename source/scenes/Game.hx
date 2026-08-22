@@ -1,21 +1,12 @@
 package scenes;
 
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.FlxState;
-import flixel.addons.ui.FlxUI9SliceSprite;
-import flixel.addons.ui.FlxUIButton;
-import flixel.input.FlxInput;
-import flixel.text.FlxInputText;
-import flixel.text.FlxText;
-import flixel.ui.FlxButton;
 import objects.Taskbar;
-import objects.ui.UIButton;
 import objects.ui.UIState;
-import openfl.geom.Rectangle;
 import system.Toasts;
-import system.Windowing;
+import system.applications.Explorator;
 import system.filesystem.FileSystem;
+import system.windowing.Window;
+import system.windowing.Windowing;
 
 using Std;
 
@@ -28,18 +19,12 @@ class Game extends UIState
 
 		add(taskbar);
 
-		Windowing.add({
-			var window = new Window();
+    FileSystem.init();
 		
-			var bg = new FlxSprite();
-
-			bg.makeGraphic(window.width.int() - 4, window.height.int() - 16, 0xFFFFFFFF);
-
-			@:privateAccess window.add(bg);
-
-			window;
-		});
-    new FileSystem();
+    var explorator = new Explorator();
+    explorator.x = 50;
+    Windowing.add(explorator);
+    Windowing.add(new Window());
 	}
 
 	override public function draw() {
