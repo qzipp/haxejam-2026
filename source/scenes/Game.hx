@@ -15,6 +15,7 @@ import objects.ui.UIState;
 import openfl.geom.Rectangle;
 import system.Toasts;
 import system.Windowing;
+import system.filesystem.FileSystem;
 
 using Std;
 
@@ -38,6 +39,7 @@ class Game extends UIState
 
 			window;
 		});
+    new FileSystem();
 	}
 
 	override public function draw() {
