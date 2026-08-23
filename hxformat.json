@@ -1,0 +1,9 @@
+{
+  "indentation": { "character": "  ", "tabWidth": 0 },
+  "whitespace": {
+    "typeHintColonPolicy": "after",
+    "ifPolicy": "none",
+    "forPolicy": "none",
+    "whilePolicy": "none"
+  }
+}
