@@ -28,15 +28,38 @@ class Windowing {
     }
   }
 
+  static var clickedWindow: Window = null;
+
   public static function update(elapsed: Float) {
-    
+    clickedWindow = null;
+
+    if(FlxG.mouse.justPressed && active == null) {
+      var i = windows.length - 1;//lol
+      while(i >= 0) {
+        if(windows[i].containsMouse()) {
+          clickedWindow = windows[i];
+          break;
+        }
+        i--;
+      }
+    }
     for(window in windows)
       window.update(elapsed);
   }
 
-  // to be used and implemented properly, i wanna solve the isue of windows being able to pass-through mouse interactions 
+  public static function focus(window: Window): Void {
+    if(windows.remove(window))
+      windows.push(window);
+  }
+
+  // to be used and implemented properly, i wanna solve the isue of windows being able to pass-through mouse interactions
   // (like with buttons) lol
   public static var onMouseDown = new FlxTypedSignal<Void->Void>();
   public static var onMouseUp = new FlxTypedSignal<Void->Void>();
   public static var onMouseMove = new FlxTypedSignal<Void->Void>();
+
+  /// helper functions
+  public static function isClickTarget(window: Window): Bool {
+    return window == clickedWindow;
+  }
 }

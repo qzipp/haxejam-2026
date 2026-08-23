@@ -10,35 +10,27 @@ import system.windowing.Windowing;
 
 using Std;
 
-class Game extends UIState
-{
-	var messages = new Array<String>();
+class Game extends UIState {
+  public static var taskbar(default, null): Taskbar;
 
-	override public function create() {
-		var taskbar = new Taskbar();
-
-		add(taskbar);
-
+  @:noCompletion
+  override public function create() {
     FileSystem.init();
-		
-    var explorator = new Explorator();
-    explorator.x = 50;
-    Windowing.add(explorator);
-    Windowing.add(new Window());
-	}
+    add(taskbar = new Taskbar());
+    // Windowing.add(new Window());
+  }
 
-	override public function draw() {
-		super.draw();
+  @:noCompletion
+  override public function draw() {
+    Toasts.draw();
+    Windowing.draw();
+    super.draw();
+  }
 
-		Toasts.draw();
-		Windowing.draw();
-	}
-	
-	override public function update(elapsed:Float)
-	{
-		super.update(elapsed);
-
-		Toasts.update(elapsed);
-		Windowing.update(elapsed);
-	}
+  @:noCompletion
+  override public function update(elapsed: Float) {
+    super.update(elapsed);
+    Toasts.update(elapsed);
+    Windowing.update(elapsed);
+  }
 }

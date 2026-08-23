@@ -6,6 +6,7 @@ import system.filesystem.nodes.File;
 enum abstract DriveLetter(String) to String {
   final C = "C";
   final D = "D";
+  final CAT = "🐈‍⬛";
   // i don car about the rest Lol
 }
 

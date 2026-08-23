@@ -61,9 +61,10 @@ class UIObject extends FlxSprite
 
 	@:dox(hide) override public function update(elapsed:Float):Void
 	{
-		super.update(elapsed);
 		if (!active)
-			return;
+			return; // skip everything while inactive
+		super.update(elapsed);
+
 		this.__updateMembers(elapsed);
 		__previousFocus = focused;
 		focused = false;
