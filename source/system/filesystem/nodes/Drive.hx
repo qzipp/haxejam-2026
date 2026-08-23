@@ -88,6 +88,7 @@ class Drive extends BaseNode {
     for(child in children)
       switch child {
         case File(file):
+					trace(file.name);
           file.destroy();
 
         case Folder(folder):

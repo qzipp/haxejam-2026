@@ -3,6 +3,7 @@ package scenes;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxFilterFrames;
+import flixel.text.FlxText;
 import objects.Taskbar;
 import objects.ui.UIState;
 import openfl.filters.ColorMatrixFilter;
@@ -21,14 +22,26 @@ class Game extends UIState {
 
   @:noCompletion
   override public function create() {
-		FlxG.sound.play(AssetPaths.Fluffing_a_Duck__ogg, 0.4, true);
+		var music = FlxG.sound.create(AssetPaths.Fluffing_a_Duck__ogg);
+		music.volume = 0.34;
+		music.looped = true;
+		music.play();
 
     FileSystem.init();
 		State.DELETED_CORE_SIGNAL.add(() -> {
 			// switch state to bluescren, play tada too
+			State.SCORE += 50;
+			music.stop();
+			FlxG.switchState(Bluescreen.new);
 		});
 
     Layers.background.add(createWallpaper());
+		Layers.background.add({
+			var todo = new FlxText(20, 20);
+			todo.text = "u must destroy computer";
+			todo.size = 12;
+			todo;
+		});
     Layers.foreground.add(taskbar = new Taskbar());
     // Windowing.add(new Window());
   }

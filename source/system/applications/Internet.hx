@@ -39,6 +39,7 @@ class Internet extends Window {
 		download_virus.pressedCallback.addOnce((?_) -> {
 			@:privateAccess Layers.background.members = [];
 			Layers.background.add(new FlxSprite().loadGraphic(AssetPaths.shitpaper1__png));
+			State.SCORE += 50;
 		});
 		body.add(download_virus);
 	}

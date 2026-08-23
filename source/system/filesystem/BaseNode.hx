@@ -12,7 +12,7 @@ interface IFileNode extends IFlxDestroyable {
   public function destroy(): Void;
 }
 
-class BaseNode<T = NodeType> implements IFileNode {
+class BaseNode implements IFileNode {
   public var name: String;
   public var parent: Drive;
 
@@ -20,11 +20,11 @@ class BaseNode<T = NodeType> implements IFileNode {
     this.name = name;
   }
 
-  public var onCreate = new FlxTypedSignal<T->Void>();
-  public var onDestroy = new FlxTypedSignal<T->Void>();
+	public var onCreate = new FlxTypedSignal<Void->Void>();
+	public var onDestroy = new FlxTypedSignal<Void->Void>();
 
   public function destroy(): Void {
-		onDestroy.dispatch(cast this);
+		onDestroy.dispatch();
 
     onDestroy?.destroy();
     onCreate?.destroy();
