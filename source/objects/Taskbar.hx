@@ -2,11 +2,13 @@ package objects;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.group.FlxContainer;
 import flixel.util.FlxColor;
 import objects.ui.UIButton;
 import objects.ui.UIObject;
+import scenes.Game;
+import system.Processes;
 import system.applications.Explorator;
+import system.windowing.Window;
 import system.windowing.Windowing;
 
 class Taskbar extends UIObject {
@@ -69,8 +71,11 @@ class Taskbar extends UIObject {
 	 */
 	function create_start_menu():StartMenu {
 		final menu = new StartMenu([
-			{label: "Explorer", callback: openExplorer},
-			{label: "Internet Explorer", callback: () -> trace("open IE")},
+			{
+				label: "Explorer",
+				callback: () -> Processes.launch(Explorer, new Explorator())
+			},
+			{label: "Internet Explorer", callback: () -> Processes.launch(InternetExplorer, new Explorator())},
 			{label: "Radio", callback: () -> trace("open radio")},
 			{label: "Shutdown", callback: () -> trace("shutdown")}
 		]);
@@ -83,14 +88,60 @@ class Taskbar extends UIObject {
 		return menu;
 	}
 
-	var explorator:Explorator = null;
+	var process_buttons = new Map<Window, UIButton>();
 
-	function openExplorer():Void {
-		if (explorator == null) {
-			explorator = new Explorator();
-			Windowing.add(explorator);
-		} else {
-			Windowing.focus(explorator);
-		}
+	static inline final PROCESS_BUTTON_WIDTH:Float = 64;
+	static inline final PROCESS_BUTTON_START_X:Float = 48;
+
+	function create_process_button(window:Window, label:String):UIButton {
+		final btn = new UIButton();
+		btn.y = y;
+		btn.setGraphicSize(PROCESS_BUTTON_WIDTH, 16);
+		btn.updateHitbox();
+		btn.text.text = label;
+
+		btn.pressedCallback.add((?_) -> { // todo: maximize?
+			if (window.isMinimized) {
+				window.restore();
+				Windowing.focus(window);
+			} else if (Windowing.isFocused(window)) {
+				window.minimize();
+			} else {
+				Windowing.focus(window);
+			}
+		});
+
+		add(btn);
+		process_buttons.set(window, btn);
+		reorganize_process_btns();
+		return btn;
+	}
+
+	function destroy_process_button(window:Window):Void {
+		final btn = process_buttons.get(window);
+		if (btn == null)
+			return;
+		remove(btn);
+		btn.destroy();
+		process_buttons.remove(window);
+		reorganize_process_btns();
+	}
+
+	function reorganize_process_btns():Void {
+		var i = 0;
+		for (btn in process_buttons)
+			btn.x = PROCESS_BUTTON_START_X + (i++) * PROCESS_BUTTON_WIDTH;
+	}
+
+	public static function addProcess(window:Window, label:String):Void {
+		if (Game.taskbar == null)
+			return; // make taskbar instance var thingy thing?
+		Game.taskbar.create_process_button(window, label);
+	}
+
+	public static function removeProcess(window:Window):Void {
+		if (Game.taskbar == null)
+			return;
+		Game.taskbar.destroy_process_button(window);
 	}
 }

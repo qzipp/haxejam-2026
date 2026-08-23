@@ -15,51 +15,55 @@ import openfl.geom.Rectangle;
 using Std;
 
 class Windowing {
-  static var windows: Array<Window> = new Array();
-  static public var active: Window = null;
+	static var windows:Array<Window> = new Array();
+	static public var active:Window = null;
 
-  public static function add(window: Window) {
-    windows.push(window);
-  }
+	public static function add(window:Window) {
+		windows.push(window);
+	}
 
-  public static function draw() {
-    for(window in windows) {
-      window.draw();
-    }
-  }
+	public static function draw() {
+		for (window in windows) {
+			window.draw();
+		}
+	}
 
-  static var clickedWindow: Window = null;
+	static var clickedWindow:Window = null;
 
-  public static function update(elapsed: Float) {
-    clickedWindow = null;
+	public static function update(elapsed:Float) {
+		clickedWindow = null;
 
-    if(FlxG.mouse.justPressed && active == null) {
-      var i = windows.length - 1;//lol
-      while(i >= 0) {
-        if(windows[i].containsMouse()) {
-          clickedWindow = windows[i];
-          break;
-        }
-        i--;
-      }
-    }
-    for(window in windows)
-      window.update(elapsed);
-  }
+		if (FlxG.mouse.justPressed && active == null) {
+			var i = windows.length - 1; // lol
+			while (i >= 0) {
+				if (windows[i].containsMouse()) {
+					clickedWindow = windows[i];
+					break;
+				}
+				i--;
+			}
+		}
+		for (window in windows)
+			window.update(elapsed);
+	}
 
-  public static function focus(window: Window): Void {
-    if(windows.remove(window))
-      windows.push(window);
-  }
+	public static function focus(window:Window):Void {
+		if (windows.remove(window))
+			windows.push(window);
+	}
 
-  // to be used and implemented properly, i wanna solve the isue of windows being able to pass-through mouse interactions
-  // (like with buttons) lol
-  public static var onMouseDown = new FlxTypedSignal<Void->Void>();
-  public static var onMouseUp = new FlxTypedSignal<Void->Void>();
-  public static var onMouseMove = new FlxTypedSignal<Void->Void>();
+	// to be used and implemented properly, i wanna solve the isue of windows being able to pass-through mouse interactions
+	// (like with buttons) lol
+	public static var onMouseDown = new FlxTypedSignal<Void->Void>();
+	public static var onMouseUp = new FlxTypedSignal<Void->Void>();
+	public static var onMouseMove = new FlxTypedSignal<Void->Void>();
 
-  /// helper functions
-  public static function isClickTarget(window: Window): Bool {
-    return window == clickedWindow;
-  }
+	/// helper functions
+	public static function isClickTarget(window:Window):Bool {
+		return window == clickedWindow;
+	}
+
+	public static function isFocused(w:Window):Bool {
+		return windows.length > 0 && windows[windows.length - 1] == w;
+	}
 }

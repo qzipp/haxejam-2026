@@ -15,11 +15,21 @@ class UIObject extends FlxSprite
 	public var members:Array<FlxBasic> = [];
 
 	function add(v:FlxBasic):Void members.push(v);
+	function remove(v:FlxBasic, splice:Bool = true):FlxBasic {
+		if (splice)
+			members.remove(v);
+		else {
+			final i = members.indexOf(v);
+			if (i != -1) members[i]= null;
+		}
+		return v;
+	}
+
 	function __drawMembers():Void @:privateAccess {
-		for (i in members) if (i.active && i.visible && i.draw != null) i.draw();
+		for (i in members) if (i!=null && i.active && i.visible && i.draw != null) i.draw();
 	}
 	function __updateMembers(elapsed: Float):Void @:privateAccess {
-		for (i in members) i.update(elapsed);
+		for (i in members) if(i!=null)i.update(elapsed);
 	}
 
 	override function draw()
