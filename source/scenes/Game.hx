@@ -20,21 +20,22 @@ class Game extends UIState {
 
   @:noCompletion
   override public function create() {
-    var wallpaper = new FlxSprite();
-    wallpaper.loadGraphic(AssetPaths.wallpaper__png);
+    FileSystem.init();
+
+    Layers.background.add(createWallpaper());
+    Layers.foreground.add(taskbar = new Taskbar());
+    // Windowing.add(new Window());
+  }
+
+  private function createWallpaper(): FlxSprite {
+    final wallpaper = new FlxSprite().loadGraphic(AssetPaths.wallpaper__png);
     wallpaper.setGraphicSize(FlxG.width, FlxG.height);
     wallpaper.updateHitbox();
 
-    wallpaper.frames = FlxFilterFrames.fromFrames(wallpaper.frames, [
-      // uh
-      new ColorMatrixFilter([0.5, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 1, 0])
-    ]);
+    final color_matrix = new ColorMatrixFilter([0.5, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 1, 0]);
+    Utilities.setSpriteFilters(wallpaper, [color_matrix]);
 
-    Layers.background.add(wallpaper);
-
-    FileSystem.init();
-    Layers.foreground.add(taskbar = new Taskbar());
-    // Windowing.add(new Window());
+    return wallpaper;
   }
 
   @:noCompletion
