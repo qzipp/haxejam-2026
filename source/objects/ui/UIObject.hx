@@ -38,10 +38,8 @@ class UIObject extends FlxSprite
 	@:noCompletion override function destroy():Void
 	{
 		members = FlxDestroyUtil.destroyArray(members);
-		if (pressedCallback != null)
-			pressedCallback.destroy();
-		if (focusChange != null)
-			focusChange.destroy();
+		pressedCallback?.destroy();
+		focusChange?.destroy();
 		super.destroy();
 	}
 

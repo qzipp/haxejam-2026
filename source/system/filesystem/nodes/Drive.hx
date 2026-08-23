@@ -69,6 +69,7 @@ class Drive extends BaseNode {
       }
 
     children = [];
+    super.destroy(); // u forgor
   }
 
   public function toString() {

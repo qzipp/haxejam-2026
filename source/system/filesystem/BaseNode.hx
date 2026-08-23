@@ -16,14 +16,16 @@ class BaseNode<T = NodeType> implements IFileNode {
   public var name: String;
   public var parent: Drive;
 
-  public var onCreate = new FlxTypedSignal<T->Void>();
-  public var onDestroy = new FlxTypedSignal<T->Void>();
-
   public function new(name: String) {
     this.name = name;
   }
 
+  public var onCreate = new FlxTypedSignal<T->Void>();
+  public var onDestroy = new FlxTypedSignal<T->Void>();
+
   public function destroy(): Void {
     onDestroy.dispatch(cast this);
+    onDestroy?.destroy();
+    onCreate?.destroy();
   }
 }
