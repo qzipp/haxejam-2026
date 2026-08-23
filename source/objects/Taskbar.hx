@@ -8,6 +8,7 @@ import objects.ui.UIObject;
 import scenes.Game;
 import system.Processes;
 import system.applications.Explorator;
+import system.applications.Internet;
 import system.windowing.Window;
 import system.windowing.Windowing;
 
@@ -75,7 +76,7 @@ class Taskbar extends UIObject {
 				label: "Explorer",
 				callback: () -> Processes.launch(Explorer, new Explorator())
 			},
-			{label: "Internet Explorer", callback: () -> Processes.launch(InternetExplorer, new Explorator())},
+			{label: "Internet Explorer", callback: () -> Processes.launch(InternetExplorer, new Internet())},
 			{label: "Radio", callback: () -> trace("open radio")},
 			{label: "Shutdown", callback: () -> trace("shutdown")}
 		]);

@@ -45,6 +45,12 @@ class Main extends Sprite
 		var system = new Folder("sys");
 		var notice = new File("DO-NOT-DELETE-THIS", "deleting any file in this folder is going to cause system instability");
 		var core = new File("core", core_file_content);
+		core.onDestroy.add(_ -> {
+			State.DELETED_CORE = true;
+			State.DELETED_CORE_SIGNAL.dispatch();
+		});
+    
+
 		system.add(File(notice));
 		system.add(File(core));
 

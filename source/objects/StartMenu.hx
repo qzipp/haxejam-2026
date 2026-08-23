@@ -39,7 +39,7 @@ class StartMenu extends UIObject {
 			btn.updateHitbox();
 			btn.y = ITEM_HEIGHT * i;
 			btn.text.text = item.label;
-			btn.text.offset.set(-4, 0);
+			btn.text.offset.set(0, 0);
 
 			btn.pressedCallback.add((?_) -> {
 				item.callback();

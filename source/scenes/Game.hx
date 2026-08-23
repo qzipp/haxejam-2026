@@ -7,6 +7,7 @@ import objects.Taskbar;
 import objects.ui.UIState;
 import openfl.filters.ColorMatrixFilter;
 import system.Layers;
+import system.State;
 import system.Toasts;
 import system.applications.Explorator;
 import system.filesystem.FileSystem;
@@ -21,6 +22,9 @@ class Game extends UIState {
   @:noCompletion
   override public function create() {
     FileSystem.init();
+		State.DELETED_CORE_SIGNAL.add(() -> {
+			// switch state to bluescren, play tada too
+		});
 
     Layers.background.add(createWallpaper());
     Layers.foreground.add(taskbar = new Taskbar());
