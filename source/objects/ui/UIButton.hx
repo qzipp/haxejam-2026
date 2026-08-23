@@ -1,10 +1,12 @@
 package objects.ui;
 
+import flixel.FlxG;
 import flixel.addons.display.FlxSliceSprite;
 import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.animation.FlxAnimationController;
 import flixel.graphics.frames.FlxTileFrames;
 import flixel.math.FlxPoint;
+import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 import flixel.util.FlxSpriteUtil;
 import openfl.geom.Rectangle;
@@ -33,6 +35,8 @@ class UIButton extends UIObject
 	{
 		super();
 
+		var click_noise = FlxG.sound.create(AssetPaths.navigation__wav);
+
 		makeGraphic(1, 1, 0xff212329);
 
 		this.width = width;
@@ -51,6 +55,7 @@ class UIButton extends UIObject
 		pressedCallback.add((?_) ->
 		{
 			animation.play("pressed");
+			click_noise.play();
 		});
 
 		focusChange.add((focused, ?_) ->

@@ -41,13 +41,16 @@ class Drive extends BaseNode {
 
   public function move(f: NodeType) {
     switch f {
-      case File(file) if(file.parent != null):
-        file.parent.children.remove(f);
+			case File(file):
+				if (file.parent != null)
+					file.parent.children.remove(f);
 
+				trace(file.name, this);
         file.parent = this;
 
-      case Folder(folder) if(folder.parent != null):
-        folder.parent.children.remove(f);
+			case Folder(folder):
+				if (folder.parent != null)
+					folder.parent.children.remove(f);
 
         folder.parent = this;
 

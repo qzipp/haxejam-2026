@@ -9,6 +9,7 @@ import objects.ui.UIObject;
 import system.filesystem.FileSystem;
 import system.filesystem.NodeType;
 import system.filesystem.nodes.Drive;
+import system.filesystem.nodes.Folder;
 import system.windowing.Window;
 
 using Std;
@@ -31,11 +32,11 @@ class Explorator extends Window {
 		up_button.x = 0;
 		up_button.pressedCallback.add((?_) -> {
 			current = switch current {
-				case File(file):
-					if (file.parent is Drive || file.parent == null) null else Folder(cast file.parent);
-				case Folder(folder):
-					if (folder.parent is Drive || folder.parent == null) null else Folder(cast folder.parent);
-				case null: null;
+				case File(file) if (file.parent is Folder && file.parent != null):
+					Folder(cast file.parent);
+				case Folder(folder) if (folder.parent is Folder && folder.parent != null):
+					Folder(cast folder.parent);
+				case _: null;
 			}
 			refresh();
 		});
@@ -146,7 +147,6 @@ class Explorator extends Window {
 					for (obj in objs) {
 						tracked.push(obj);
 						obj.y = topbar_offset + obj.height * i;
-						trace(obj.height);
 						body.add(obj);
 					}
 
