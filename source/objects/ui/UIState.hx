@@ -29,6 +29,8 @@ class UIState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
+		@:privateAccess
+		UIObject.__findTopmost();
 		super.update(elapsed);
 
 		if (FlxG.mouse.justReleased)

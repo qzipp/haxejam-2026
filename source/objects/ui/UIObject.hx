@@ -10,6 +10,23 @@ import openfl.ui.MouseCursor;
 
 class UIObject extends FlxSprite
 {
+	static var tracked_objs:Array<UIObject> = [];
+
+	// topmost ui obj (under mouse LOL)
+	static var topmost:UIObject = null;
+
+	static function __findTopmost():Void {
+		topmost = null;
+
+		for (i in 0...tracked_objs.length) {
+			final obj = tracked_objs[tracked_objs.length - 1 - i];
+			if (obj.exists && obj.active && obj.visible && obj.__detectOverlaps && Utils.mouseOverlapping(obj)) {
+				topmost = obj;
+				break;
+			}
+		}
+	}
+
 	public var focused:Bool = false;
 
 	public var members:Array<FlxBasic> = [];
@@ -25,10 +42,10 @@ class UIObject extends FlxSprite
 		return v;
 	}
 
-	function __drawMembers():Void @:privateAccess {
+	function __drawMembers():Void {
 		for (i in members) if (i!=null && i.active && i.visible && i.draw != null) i.draw();
 	}
-	function __updateMembers(elapsed: Float):Void @:privateAccess {
+	function __updateMembers(elapsed:Float):Void {
 		for (i in members) if(i!=null)i.update(elapsed);
 	}
 
@@ -47,6 +64,7 @@ class UIObject extends FlxSprite
 
 	@:noCompletion override function destroy():Void
 	{
+		tracked_objs.remove(this);
 		members = FlxDestroyUtil.destroyArray(members);
 		pressedCallback?.destroy();
 		focusChange?.destroy();
@@ -57,6 +75,7 @@ class UIObject extends FlxSprite
 	{
 		super(X, Y, SimpleGraphic);
 		focusChange.add((c, ?u) -> if (available && changeMouseOnFocus) u.cursor = c ? BUTTON : HAND);
+		tracked_objs.push(this);
 	}
 
 	public var pressedCallback:FlxTypedSignal<?UIObject->Void> = new FlxTypedSignal();
@@ -76,7 +95,7 @@ class UIObject extends FlxSprite
 		this.__updateMembers(elapsed);
 		__previousFocus = focused;
 		focused = false;
-		if (__detectOverlaps && Utils.mouseOverlapping(this))
+		if (__detectOverlaps && topmost == this)
 		{
 			focused = true;
 			if (FlxG.mouse.justPressed)
