@@ -19,27 +19,38 @@ class FileSystem {
     return null;
   }
 
+	static public final core_file_content = "package;
+
+import flixel.FlxG;
+import flixel.FlxGame;
+import flixel.system.scaleModes.PixelPerfectScaleMode;
+import flixel.system.scaleModes.RatioScaleMode;
+import openfl.display.Sprite;
+import scenes.Game;
+
+class Main extends Sprite
+{
+	public function new()
+	{
+		super();
+    addChild(new FlxGame(320, 240, Game, 60, 60, true, false));
+		FlxG.scaleMode = new PixelPerfectScaleMode();
+	}
+}
+";
+
   static public function init() {
     var c_drive = new Drive(C);
 
-    var file = new File("orbl.txt", "stinks");
-    var file_2 = new File("qzip.txt", "stinks more");
-    var ffff = new Folder("truths");
+		var system = new Folder("sys");
+		var notice = new File("DO-NOT-DELETE-THIS", "deleting any file in this folder is going to cause system instability");
+		var core = new File("core", core_file_content);
+		system.add(File(notice));
+		system.add(File(core));
 
-    ffff.add(File(file_2));
-
-    c_drive.add(File(file));
-
-    c_drive.add(Folder(ffff));
+		c_drive.add(Folder(system));
 
     drives.push(c_drive);
-
-    switch c_drive.get("orbl.txt") {
-      case File(file):
-        trace(file.content);
-      case _:
-        throw "Wat";
-    }
 
     trace(c_drive);
     // root = new Folder("C:");

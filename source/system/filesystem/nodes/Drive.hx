@@ -36,6 +36,29 @@ class Drive extends BaseNode {
     return null;
   }
 
+	public function find(node:BaseNode) {
+		for (f in children) {
+			switch f {
+				case File(file) if (file == node):
+					return f;
+
+				case Folder(folder) if (folder == node):
+					return f;
+
+				case _:
+					continue;
+			}
+		}
+
+		return null;
+	}
+
+	public function delete(f:NodeType) {
+		children.remove(f);
+
+		onRemove.dispatch(f);
+	}
+
   public function add(f: NodeType)
     move(f);
 
@@ -43,14 +66,14 @@ class Drive extends BaseNode {
     switch f {
 			case File(file):
 				if (file.parent != null)
-					file.parent.children.remove(f);
+					file.parent.delete(f);
 
 				trace(file.name, this);
         file.parent = this;
 
 			case Folder(folder):
 				if (folder.parent != null)
-					folder.parent.children.remove(f);
+					folder.parent.delete(f);
 
         folder.parent = this;
 

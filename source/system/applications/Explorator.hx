@@ -17,6 +17,8 @@ using Std;
 class Explorator extends Window {
 	var current:NodeType = null;
 
+	var path_text:FlxText;
+
   public function new() {
     super();
 
@@ -27,10 +29,13 @@ class Explorator extends Window {
     var text = new FlxText(50, 0, " Hi");
     body.add(text);
 
-		var up_button = new UIButton();
+		var up_button = new UIButton(32);
 		up_button.text.text = "back";
 		up_button.x = 0;
 		up_button.pressedCallback.add((?_) -> {
+			if (current == null)
+				return;
+
 			current = switch current {
 				case File(file) if (file.parent is Folder && file.parent != null):
 					Folder(cast file.parent);
@@ -42,9 +47,15 @@ class Explorator extends Window {
 		});
 		body.add(up_button);
 
+		path_text = new FlxText(38, 0, 70);
+		path_text.color = 0x000000;
+		path_text.text = "";
+
+		body.add(path_text);
+
 		var refresh_button = new UIButton();
     refresh_button.text.text = "refresh";
-    refresh_button.x = 70;
+		refresh_button.x = width - 68;
 
     refresh();
 		refresh_button.pressedCallback.add((?_) -> {
@@ -81,6 +92,10 @@ class Explorator extends Window {
 				delete_button.color = 0xff0000;
 				delete_button.text.text = "X";
 				delete_button.x = width - 20;
+				delete_button.pressedCallback.add((?_) -> {
+					file.destroy();
+					refresh();
+				});
 
 				g.push(delete_button);
 
@@ -109,6 +124,10 @@ class Explorator extends Window {
 				delete_button.color = 0xff0000;
 				delete_button.text.text = "X";
 				delete_button.x = width - 20;
+				delete_button.pressedCallback.add((?_) -> {
+					folder.destroy();
+					refresh();
+				});
 
 				g.push(delete_button);
 
@@ -128,29 +147,56 @@ class Explorator extends Window {
 
 		switch current {
 			case Folder(folder):
-				for (i => f in folder.children) {
-					var objs = make_file(f);
-					for (obj in objs) {
-						tracked.push(obj);
-						obj.y = topbar_offset + obj.height * i;
-						body.add(obj);
+				if (folder.children.length != 0)
+					for (i => f in folder.children) {
+						var objs = make_file(f);
+						for (obj in objs) {
+							tracked.push(obj);
+							obj.y = topbar_offset + obj.height * i;
+							body.add(obj);
+						}
 					}
+				else {
+					var text = new FlxText(48, topbar_offset + 22, "empty...");
+					text.size = 20;
+					// var text = new FlxText(0, 0);
+					text.color = 0x3F3F3F;
+					// text.text = file.name;
+					tracked.push(text);
+
+					body.add(text);
 				}
 
+
 			case File(file):
-				trace("File");
+				var text = new FlxText(0, topbar_offset, width - 10, file.content);
+				text.fieldHeight = height - 30;
+				text.color = 0x000000;
+				// text.text = file.name;
+				tracked.push(text);
 
+				body.add(text);
 			case null:
-				for (i => f in FileSystem.get(C).children) {
-					trace(i, f);
-					var objs = make_file(f);
-					for (obj in objs) {
-						tracked.push(obj);
-						obj.y = topbar_offset + obj.height * i;
-						body.add(obj);
+				var children = FileSystem.get(C).children;
+				if (children.length != 0)
+					for (i => f in children) {
+						trace(i, f);
+						var objs = make_file(f);
+						for (obj in objs) {
+							tracked.push(obj);
+							obj.y = topbar_offset + obj.height * i;
+							body.add(obj);
+						}
 					}
+				else {
+					var text = new FlxText(20, topbar_offset, "what\nhave\nyou\ndone");
+					text.size = 18;
+					// var text = new FlxText(0, 0);
+					text.color = 0x782E2E;
+					// text.text = file.name;
+					tracked.push(text);
 
-					// body.add(obj);
+					body.add(text);
 				}
 		}
 	}

@@ -24,7 +24,8 @@ class BaseNode<T = NodeType> implements IFileNode {
   public var onDestroy = new FlxTypedSignal<T->Void>();
 
   public function destroy(): Void {
-    onDestroy.dispatch(cast this);
+		onDestroy.dispatch(cast this);
+
     onDestroy?.destroy();
     onCreate?.destroy();
   }

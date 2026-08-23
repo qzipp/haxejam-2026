@@ -18,4 +18,8 @@ final class File extends BaseNode {
     this.content = content;
    // onCreate.dispatch(this);
   }
+	override function destroy() {
+		super.destroy();
+		parent.delete(parent.find(this));
+	}
 }
