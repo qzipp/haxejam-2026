@@ -100,6 +100,7 @@ class Taskbar extends UIObject {
 		btn.setGraphicSize(PROCESS_BUTTON_WIDTH, 16);
 		btn.updateHitbox();
 		btn.text.text = label;
+		btn.bypassTopmost = true;
 
 		btn.pressedCallback.add((?_) -> { // todo: maximize?
 			if (window.isMinimized) {
