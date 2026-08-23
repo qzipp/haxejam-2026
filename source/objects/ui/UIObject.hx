@@ -7,6 +7,7 @@ import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxSignal.FlxTypedSignal;
 import openfl.ui.Mouse;
 import openfl.ui.MouseCursor;
+import system.windowing.Windowing;
 
 class UIObject extends FlxSprite
 {
@@ -20,7 +21,7 @@ class UIObject extends FlxSprite
 
 		for (i in 0...tracked_objs.length) {
 			final obj = tracked_objs[tracked_objs.length - 1 - i];
-			if (obj.exists && obj.active && obj.visible && obj.__detectOverlaps && Utils.mouseOverlapping(obj)) {
+			if (obj.exists && obj.active && obj.visible && obj.__detectOverlaps && Utils.mouseOverlapping(obj) && !Windowing.isCoveredByWindow(obj)) {
 				topmost = obj;
 				break;
 			}

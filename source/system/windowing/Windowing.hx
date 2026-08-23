@@ -33,16 +33,9 @@ class Windowing {
 	public static function update(elapsed:Float) {
 		clickedWindow = null;
 
-		if (FlxG.mouse.justPressed && active == null) {
-			var i = windows.length - 1; // lol
-			while (i >= 0) {
-				if (windows[i].containsMouse()) {
-					clickedWindow = windows[i];
-					break;
-				}
-				i--;
-			}
-		}
+		if (FlxG.mouse.justPressed && active == null)
+			clickedWindow = topmostWindow();
+    
 		for (window in windows)
 			window.update(elapsed);
 	}
@@ -59,5 +52,22 @@ class Windowing {
 
 	public static function isFocused(w:Window):Bool {
 		return windows.length > 0 && windows[windows.length - 1] == w;
+	}
+	public static function isCoveredByWindow(obj:UIObject):Bool {
+		final top = topmostWindow();
+		if (top == null)
+			return false;
+		return !top.owns(obj);
+	}
+
+	// under mouse
+	public static function topmostWindow():Window {
+		var i = windows.length - 1;
+		while (i >= 0) {
+			if (windows[i].containsMouse())
+				return windows[i];
+			i--;
+		}
+		return null;
 	}
 }

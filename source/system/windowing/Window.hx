@@ -183,4 +183,7 @@ class Window extends FlxSpriteContainer {
 		visible = true;
 		active = true;
 	}
+	public function owns(obj:UIObject):Bool {
+		return body.members.indexOf(cast obj) != -1;
+	}
 }
