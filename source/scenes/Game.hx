@@ -21,6 +21,8 @@ class Game extends UIState {
 
   @:noCompletion
   override public function create() {
+		FlxG.sound.play(AssetPaths.Fluffing_a_Duck__ogg, 0.4, true);
+
     FileSystem.init();
 		State.DELETED_CORE_SIGNAL.add(() -> {
 			// switch state to bluescren, play tada too
