@@ -89,6 +89,8 @@ class UIObject extends FlxSprite
 	@:noCompletion var __previousFocus:Bool = false;
 	var __detectOverlaps:Bool = true;
 
+	public var bypassTopmost = false;
+
 	@:dox(hide) override public function update(elapsed:Float):Void
 	{
 		if (!active)
@@ -98,7 +100,7 @@ class UIObject extends FlxSprite
 		this.__updateMembers(elapsed);
 		__previousFocus = focused;
 		focused = false;
-		if (__detectOverlaps && topmost == this)
+		if (__detectOverlaps && ((bypassTopmost && topmost == this) || Utils.mouseOverlapping(this)))
 		{
 			focused = true;
 			if (FlxG.mouse.justPressed)
