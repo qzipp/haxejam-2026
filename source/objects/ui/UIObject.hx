@@ -32,8 +32,10 @@ class UIObject extends FlxSprite
 
 	public var members:Array<FlxBasic> = [];
 
-	function add(v:FlxBasic):Void members.push(v);
-	function remove(v:FlxBasic, splice:Bool = true):FlxBasic {
+	public function add(v:FlxBasic):Void
+		members.push(v);
+
+	public function remove(v:FlxBasic, splice:Bool = true):FlxBasic {
 		if (splice)
 			members.remove(v);
 		else {
