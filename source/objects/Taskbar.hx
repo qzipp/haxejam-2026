@@ -45,7 +45,7 @@ class Taskbar extends UIObject {
 	}
 
 	function create_start_button():UIButton {
-		var start_button = new UIButton();
+		var start_button = new UIButton(48);
 		start_button.y = y;
 		start_button.setGraphicSize(48, 16);
 		start_button.updateHitbox();

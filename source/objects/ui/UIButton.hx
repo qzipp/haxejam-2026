@@ -29,20 +29,18 @@ class UIButton extends UIObject
 {
 	public var text:FlxText;
 
-	public function new()
+	public function new(width:Float = 64.0)
 	{
 		super();
 
 		makeGraphic(1, 1, 0xff212329);
 
-		width = 64.0;
-    height = 14.0;
-    FlxSliceSprite;
+		this.width = width;
 
     var slice = new FlxUI9SliceSprite(0, 0, AssetPaths.button__png, new Rectangle(0, 0, width, 14 * 3), [6, 6, 9, 10], FlxUI9SliceSprite.TILE_BOTH);
     loadGraphic(slice.graphic);
-    frames = FlxTileFrames.fromGraphic(graphic, FlxPoint.get(width, 14.0));
-    // slice.setGraphicSize(width, height);
+		frames = FlxTileFrames.fromGraphic(graphic, FlxPoint.get(width, 14));
+		// setGraphicSize(width, height);
 
     updateHitbox();
 		// loadGraphic(AssetPaths.button__png, true, 52, 12);

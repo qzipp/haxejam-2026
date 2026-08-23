@@ -34,7 +34,7 @@ class StartMenu extends UIObject {
 		updateHitbox();
 
 		for (i => item in items) {
-			var btn = new UIButton();
+			var btn = new UIButton(MENU_WIDTH);
 			btn.setGraphicSize(MENU_WIDTH.int(), ITEM_HEIGHT.int());
 			btn.updateHitbox();
 			btn.y = ITEM_HEIGHT * i;
