@@ -28,8 +28,8 @@ class Taskbar extends UIObject {
 		makeGraphic(1, 1, 0x00FFFFFF);
 		y = FlxG.height - 16;
 
-		bg = new FlxSprite(0, y).makeGraphic(1, 1, TASKBAR_BACKGROUND_COLOR);
-		bg.setGraphicSize(FlxG.width, 16);
+		bg = new FlxSprite(0, y + 2).makeGraphic(1, 1, TASKBAR_BACKGROUND_COLOR);
+		bg.setGraphicSize(FlxG.width, 14);
 		bg.updateHitbox();
 		add(bg);
 
@@ -53,7 +53,7 @@ class Taskbar extends UIObject {
 		var logo = new FlxSprite();
 		logo.loadGraphic(AssetPaths.haxe__png);
 		logo.setGraphicSize(12, 12);
-		logo.x = start_button.x;
+		logo.x = start_button.x + 1;
 		logo.y = start_button.y;
 		start_button.add(logo);
 
@@ -127,10 +127,11 @@ class Taskbar extends UIObject {
 		reorganize_process_btns();
 	}
 
+	final PROCESS_BUTTON_OFFSET = 2; 
 	function reorganize_process_btns():Void {
 		var i = 0;
 		for (btn in process_buttons)
-			btn.x = PROCESS_BUTTON_START_X + (i++) * PROCESS_BUTTON_WIDTH;
+			btn.x = PROCESS_BUTTON_OFFSET + PROCESS_BUTTON_START_X + (i++) * PROCESS_BUTTON_WIDTH;
 	}
 
 	public static function addProcess(window:Window, label:String):Void {

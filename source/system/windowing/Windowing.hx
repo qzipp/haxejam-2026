@@ -52,12 +52,6 @@ class Windowing {
 			windows.push(window);
 	}
 
-	// to be used and implemented properly, i wanna solve the isue of windows being able to pass-through mouse interactions
-	// (like with buttons) lol
-	public static var onMouseDown = new FlxTypedSignal<Void->Void>();
-	public static var onMouseUp = new FlxTypedSignal<Void->Void>();
-	public static var onMouseMove = new FlxTypedSignal<Void->Void>();
-
 	/// helper functions
 	public static function isClickTarget(window:Window):Bool {
 		return window == clickedWindow;
